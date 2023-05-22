@@ -1,61 +1,33 @@
-melon_cost = 1.00
+def check_customer_payments(filename):
+    """Takes in a text file containing customer payments and check for under or overpayments.
+    
+    For Example: The cost of a melon is $1.00.
 
-customer1_name = "Joe"
-customer1_melons = 5
-customer1_paid = 5.00
+    Customer 3, Sally, paid 9.50 for 9 melons --> overpaid
+    Customer 6, Ashley, paid 2.00 for 3 melons --> underpaid 
+    """
 
-customer2_name = "Frank"
-customer2_melons = 6
-customer2_paid = 6.00
+    customer_order_data = open(filename) # open the file
+    melon_cost = 1.00
 
-customer3_name = "Sally"
-customer3_melons = 3
-customer3_paid = 3.00
+    for line in customer_order_data: # loop through the lines of the file
+        lines = line.split("|") # split up the lines at "|" to get a list of strings
 
-customer4_name = "Sean"
-customer4_melons = 9
-customer4_paid = 9.50
+        customer_number = lines[0] # get customer's number
+        customer_name = lines[1] # get customer's full name
+        melon_quantity = float(lines[2]) # get quantity of melons the customer bought
+        amount_paid = float(lines[3]) # get amount the customer paid
 
-customer5_name = "David"
-customer5_melons = 4
-customer5_paid = 4.00
+        customer_expected = melon_quantity * melon_cost # calculate the expected price of customer's order
+        if customer_expected != amount_paid: # if customer didn't pay correct amount, check if under or overpaid
+            if customer_expected < amount_paid: # if customer overpaid, print overpaid
+                payment_status = "overpaid"
+            else:
+                payment_status = "underpaid" # if customer underpaid, print underpaid
 
-customer6_name = "Ashley"
-customer6_melons = 3
-customer6_paid = 2.00
+            print(f"{customer_name} has {payment_status} for their melons.")
 
-customer1_expected = customer1_melons * melon_cost
-if customer1_expected != customer1_paid:
-    print(f"{customer1_name} paid ${customer1_paid:.2f},",
-          f"expected ${customer1_expected:.2f}"
-          )
-
-customer2_expected = customer2_melons * melon_cost
-if customer2_expected != customer2_paid:
-    print(f"{customer2_name} paid ${customer2_paid:.2f},",
-          f"expected ${customer2_expected:.2f}"
-          )
-
-customer3_expected = customer3_melons * melon_cost
-if customer3_expected != customer3_paid:
-    print(f"{customer3_name} paid ${customer3_paid:.2f},",
-          f"expected ${customer3_expected:.2f}"
-          )
-
-customer4_expected = customer4_melons * melon_cost
-if customer4_expected != customer4_paid:
-    print(f"{customer4_name} paid ${customer4_paid:.2f},",
-          f"expected ${customer4_expected:.2f}"
-          )
-
-customer5_expected = customer5_melons * melon_cost
-if customer5_expected != customer5_paid:
-    print(f"{customer5_name} paid ${customer5_paid:.2f},",
-          f"expected ${customer5_expected:.2f}"
-          )
-
-customer6_expected = customer6_melons * melon_cost
-if customer6_expected != customer6_paid:
-    print(f"{customer6_name} paid ${customer6_paid:.2f},",
-          f"expected ${customer6_expected:.2f}"
-          )
+    customer_order_data.close() # close the file
+            
+check_customer_payments("customer-orders.txt") # call the function
+            
